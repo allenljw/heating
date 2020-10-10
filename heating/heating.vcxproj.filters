@@ -18,7 +18,7 @@
     <ClCompile Include="..\fitsfile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\heat.cpp">
+    <ClCompile Include="..\heat_backup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

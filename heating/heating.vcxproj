@@ -144,7 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\fitsfile.cpp" />
-    <ClCompile Include="..\heat.cpp" />
+    <ClCompile Include="..\heat_backup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\array.hxx" />

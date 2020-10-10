@@ -10,7 +10,7 @@
 
 // Load the template functions to draw the hot and cold spots
 #include "draw.hxx"
-#define NUM_THREAD 6
+#define NUM_THREAD 4
 
 using namespace std;
 
