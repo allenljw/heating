@@ -43,15 +43,16 @@ int main(int argc, char* argv[])
 
     double start_time = omp_get_wtime();
 
+#pragma omp parallel shared(iter, share_nconverged) private(id, start_seq, end_seq, nconverged) 
+    {
     do {
-        share_nconverged = 0;
+#pragma omp single 
+            {share_nconverged = 0; }
 
-#pragma omp parallel shared(share_nconverged) private(id, start_seq, end_seq, nconverged) 
-        {
             id = omp_get_thread_num();
             if (id == 0) start_seq = 1;
             else start_seq = id * npi_length;
-            
+
             if (id == NUM_THREAD - 1) end_seq = npixy - 1;
             else end_seq = (id + 1) * npi_length;
 
@@ -61,15 +62,15 @@ int main(int argc, char* argv[])
                     g(y, x) = 0.25 * (h(y, x - 1) + h(y, x + 1) + h(y - 1, x) + h(y + 1, x));
                 }
             }
-#pragma omp barrier
+    #pragma omp barrier
 
-#pragma omp single 
+    #pragma omp single 
             {fix_boundaries2(g); }
-            
+
             nconverged = 0;
 
             if (id == NUM_THREAD - 1) end_seq = npixy;
-            
+
             //for (int y = 0; y < npixy; ++y) {
             for (int y = (id * npi_length); y < end_seq; ++y) {
                 for (int x = 0; x < npixx; ++x) {
@@ -78,16 +79,18 @@ int main(int argc, char* argv[])
                     h(y, x) = g(y, x);
                 }
             }
-#pragma omp atomic 
+    #pragma omp atomic 
             share_nconverged += nconverged;
-#pragma omp barrier
 
-        }
+    #pragma omp single 
+            {++iter;}
 
-        ++iter;
+    #pragma omp barrier
 
-    //} while (nconverged < nrequired && iter < ITMAX);
-    } while (share_nconverged < nrequired && iter < ITMAX);
+        //} while (nconverged < nrequired && iter < ITMAX);
+        } while (share_nconverged < nrequired && iter < ITMAX);
+
+    }
 
     double duration = omp_get_wtime() - start_time;
 
