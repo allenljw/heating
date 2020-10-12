@@ -80,7 +80,6 @@ int main(int argc, char* argv[])
             }
 #pragma omp atomic 
             share_nconverged += nconverged;
-#pragma omp barrier
 
         }
 

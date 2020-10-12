@@ -16,14 +16,14 @@ CFLAGS = -O3
 OBJS = fitsfile.o
 
 # Link to CFITSIO libraries - modify these paths accordingly
-LIBP = -L..\cfitsio.build\Release
-INCP = -I..\cfitsio-3.49
+LIBP = -L/usr/local/lib
+INCP = -I/usr/local/include
 
 LIBS = -lcfitsio -lm
 
 MODS = $(INCP) $(LIBP) $(LIBS) $(OBJS) 
 
-BINS = heat_demo
+BINS = heat
 
 all : $(BINS)
 
@@ -32,8 +32,8 @@ clean :
 	rm -f *.o
 
 # Demo program. Add more programs by making entries similar to this
-heat_demo : heat_demo.cpp draw.hxx array.hxx $(OBJS)
-	${CPP} $(CFLAGS) -o heat_demo.exe heat_demo.cpp $(MODS)
+heat : heat.cpp draw.hxx array.hxx $(OBJS)
+	${CPP} $(CFLAGS) -o heat_demo.exe heat.cpp $(MODS)
 
 # Modules compiled and linked separately
 fitsfile.o : fitsfile.cpp fitsfile.h
