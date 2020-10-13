@@ -32,8 +32,8 @@ clean :
 	rm -f *.o
 
 # Demo program. Add more programs by making entries similar to this
-heat : heat.cpp draw.hxx array.hxx $(OBJS)
-	${CPP} $(CFLAGS) -o heat_demo.exe heat.cpp $(MODS)
+heat : heat_sequential.cpp draw.hxx array.hxx $(OBJS)
+	${CPP} $(CFLAGS) -o heat -fopenmp heat_sequential.cpp $(MODS)
 
 # Modules compiled and linked separately
 fitsfile.o : fitsfile.cpp fitsfile.h
